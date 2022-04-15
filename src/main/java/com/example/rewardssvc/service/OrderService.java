@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
 public class OrderService {
@@ -19,9 +17,7 @@ public class OrderService {
     }
 
     public List<Order> getOrders() {
-        return StreamSupport
-                .stream(orderRepository.findAll().spliterator(), false)
-                .collect(Collectors.toList());
+        return orderRepository.findAll();
     }
 
     public Order getOrder(Long orderId) {

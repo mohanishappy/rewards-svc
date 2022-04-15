@@ -28,7 +28,7 @@ public class OrderController {
 
     @GetMapping(path = "/search")
     public List<Order> searchOrders(@RequestParam(required = false) Long orderId,
-                                             @RequestParam(required = false) Long customerId) {
+                                    @RequestParam(required = false) Long customerId) {
         return orderService.searchOrders(orderId, customerId);
     }
 }

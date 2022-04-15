@@ -8,5 +8,5 @@ import lombok.Data;
 public class RewardsEntry {
     private String month;
     private String year;
-    private Long rewardPoints;
+    private Double rewardPoints;
 }

@@ -25,8 +25,8 @@ public class RewardsService {
         this.orderRepository = orderRepository;
     }
 
-    private long getRewardPoints(double purchaseAmount) {
-        long rewardPoints = 0;
+    private double getRewardPoints(double purchaseAmount) {
+        double rewardPoints = 0;
         if (purchaseAmount > 100) {
             rewardPoints += purchaseAmount - 100;
         }
@@ -38,13 +38,13 @@ public class RewardsService {
 
     public Rewards getRewardsByCustomer(Long customerId) {
 
-        List<Order> byCustomerId = orderRepository.findByCustomerId(customerId);
+        List<Order> ordersByCustomerId = orderRepository.findByCustomerId(customerId);
 
-        Map<YearMonth, Long> rewardsByYearMonth = byCustomerId.stream()
+        Map<YearMonth, Double> rewardsByYearMonth = ordersByCustomerId.stream()
                 .collect(groupingBy(m -> YearMonth.from(m.getPurchaseDate()),
-                        summingLong(m -> getRewardPoints(m.getPurchaseAmount()))));
+                        summingDouble(m -> getRewardPoints(m.getPurchaseAmount()))));
 
-        Long totalRewards = rewardsByYearMonth.values().stream().mapToLong(d -> d).sum();
+        Double totalRewards = rewardsByYearMonth.values().stream().mapToDouble(d -> d).sum();
 
         List<RewardsEntry> rewardsEntries = rewardsByYearMonth.entrySet().stream()
                 .map(e -> RewardsEntry.builder()

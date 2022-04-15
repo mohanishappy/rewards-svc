@@ -14,46 +14,46 @@ import java.time.Month;
 
 @SpringBootApplication
 @Slf4j
-public class RewardsSvcApplication  implements CommandLineRunner {
+public class RewardsSvcApplication implements CommandLineRunner {
 
-	private final CustomerRepository customerRepository;
-	private final OrderRepository orderRepository;
+    private final CustomerRepository customerRepository;
+    private final OrderRepository orderRepository;
 
-	public RewardsSvcApplication(CustomerRepository customerRepository, OrderRepository orderRepository) {
-		this.customerRepository = customerRepository;
-		this.orderRepository = orderRepository;
-	}
+    public RewardsSvcApplication(CustomerRepository customerRepository, OrderRepository orderRepository) {
+        this.customerRepository = customerRepository;
+        this.orderRepository = orderRepository;
+    }
 
-	public static void main(String[] args) {
-		SpringApplication.run(RewardsSvcApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(RewardsSvcApplication.class, args);
+    }
 
 
-	@Override
-	public void run(String... args) {
+    @Override
+    public void run(String... args) {
 
-		log.info("load data to h2 started...");
+        log.info("load data to h2 started...");
 
-		loadCustomerData();
-		loadOrderData();
+        loadCustomerData();
+        loadOrderData();
 
-		log.info("load data to h2 complete...");
-	}
+        log.info("load data to h2 complete...");
+    }
 
-	private void loadCustomerData(){
-		customerRepository.save(Customer.builder().customerId(1L).name("John Doe").email("john.doe@email.com").build());
-		customerRepository.save(Customer.builder().customerId(2L).name("Jane Doe").email("jane.doe@email.com").build());
-		customerRepository.save(Customer.builder().customerId(3L).name("Joe Blow").email("joe.blow@email.com").build());
-	}
+    private void loadCustomerData() {
+        customerRepository.save(Customer.builder().customerId(1L).name("John Doe").email("john.doe@email.com").build());
+        customerRepository.save(Customer.builder().customerId(2L).name("Jane Doe").email("jane.doe@email.com").build());
+        customerRepository.save(Customer.builder().customerId(3L).name("Joe Blow").email("joe.blow@email.com").build());
+    }
 
-	private void loadOrderData(){
-		orderRepository.save(Order.builder().customerId(1L).purchaseDate(LocalDateTime.now()).purchaseAmount(75.56).build());
-		orderRepository.save(Order.builder().customerId(1L).purchaseDate(LocalDateTime.now()).purchaseAmount(25.90).build());
-		orderRepository.save(Order.builder().customerId(1L).purchaseDate(LocalDateTime.of(2021, Month.AUGUST, 22, 12, 30)).purchaseAmount(125.36).build());
-		orderRepository.save(Order.builder().customerId(1L).purchaseDate(LocalDateTime.of(2022, Month.AUGUST, 22, 12, 30)).purchaseAmount(174.36).build());
-		orderRepository.save(Order.builder().customerId(2L).purchaseDate(LocalDateTime.now()).purchaseAmount(5.56).build());
-		orderRepository.save(Order.builder().customerId(2L).purchaseDate(LocalDateTime.now()).purchaseAmount(75.24).build());
-		orderRepository.save(Order.builder().customerId(2L).purchaseDate(LocalDateTime.now()).purchaseAmount(175.56).build());
-		orderRepository.save(Order.builder().customerId(3L).purchaseDate(LocalDateTime.now()).purchaseAmount(15.56).build());
-	}
+    private void loadOrderData() {
+        orderRepository.save(Order.builder().customerId(1L).purchaseDate(LocalDateTime.now()).purchaseAmount(75.56).build());
+        orderRepository.save(Order.builder().customerId(1L).purchaseDate(LocalDateTime.now()).purchaseAmount(25.90).build());
+        orderRepository.save(Order.builder().customerId(1L).purchaseDate(LocalDateTime.of(2021, Month.AUGUST, 22, 12, 30)).purchaseAmount(125.36).build());
+        orderRepository.save(Order.builder().customerId(1L).purchaseDate(LocalDateTime.of(2022, Month.FEBRUARY, 22, 12, 30)).purchaseAmount(174.36).build());
+        orderRepository.save(Order.builder().customerId(2L).purchaseDate(LocalDateTime.of(2022, Month.FEBRUARY, 22, 12, 30)).purchaseAmount(68.98).build());
+        orderRepository.save(Order.builder().customerId(2L).purchaseDate(LocalDateTime.now()).purchaseAmount(75.24).build());
+        orderRepository.save(Order.builder().customerId(2L).purchaseDate(LocalDateTime.now()).purchaseAmount(175.56).build());
+        orderRepository.save(Order.builder().customerId(3L).purchaseDate(LocalDateTime.now()).purchaseAmount(15.56).build());
+    }
 }

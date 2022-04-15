@@ -20,7 +20,7 @@ public class RewardsController {
     }
 
     @GetMapping
-    public Rewards getRewardsByCustomer(@RequestParam Long customerId){
-    return rewardsService.getRewardsByCustomer(customerId);
+    public Rewards getRewardsByCustomer(@RequestParam Long customerId) {
+        return rewardsService.getRewardsByCustomer(customerId);
     }
 }

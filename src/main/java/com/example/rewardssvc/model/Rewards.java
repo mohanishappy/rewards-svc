@@ -10,5 +10,5 @@ import java.util.List;
 public class Rewards {
 
     private List<RewardsEntry> monthlyRewards;
-    private Long totalRewardPoints;
+    private Double totalRewardPoints;
 }
