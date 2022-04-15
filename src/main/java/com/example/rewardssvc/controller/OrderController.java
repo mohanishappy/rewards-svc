@@ -21,18 +21,14 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @GetMapping(path = "/all")
+    @GetMapping
     public List<Order> getOrders() {
         return orderService.getOrders();
     }
 
-    @GetMapping(path = "/detail")
-    public Order getOrder(@RequestParam Long orderId) {
-        return orderService.getOrder(orderId);
-    }
-
-    @GetMapping
-    public List<Order> getOrdersByCustomerId(@RequestParam Long customerId) {
-        return orderService.getOrdersByCustomerId(customerId);
+    @GetMapping(path = "/search")
+    public List<Order> searchOrders(@RequestParam(required = false) Long orderId,
+                                             @RequestParam(required = false) Long customerId) {
+        return orderService.searchOrders(orderId, customerId);
     }
 }

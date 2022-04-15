@@ -2,6 +2,7 @@ package com.example.rewardssvc.service;
 
 import com.example.rewardssvc.model.Customer;
 import com.example.rewardssvc.repository.CustomerRepository;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +20,20 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public List<Customer> getCustomers() {
+    public List<Customer> getAllCustomers() {
         return StreamSupport
                 .stream(customerRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList());
     }
 
-    public Customer getCustomer(Long customerId) {
-        return customerRepository.findByCustomerId(customerId);
+    public List<Customer> searchCustomers(Long customerId, String customerName) {
+        if (customerId != null) {
+            return customerRepository.findByCustomerId(customerId);
+        } else if (StringUtils.isNotEmpty(customerName)) {
+            return customerRepository.findByName(customerName);
+        } else {
+            return getAllCustomers();
+        }
+
     }
 }

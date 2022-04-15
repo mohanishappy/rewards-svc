@@ -10,6 +10,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.time.LocalDateTime;
+import java.time.Month;
 
 @SpringBootApplication
 @Slf4j
@@ -48,11 +49,11 @@ public class RewardsSvcApplication  implements CommandLineRunner {
 	private void loadOrderData(){
 		orderRepository.save(Order.builder().customerId(1L).purchaseDate(LocalDateTime.now()).purchaseAmount(75.56).build());
 		orderRepository.save(Order.builder().customerId(1L).purchaseDate(LocalDateTime.now()).purchaseAmount(25.90).build());
-		orderRepository.save(Order.builder().customerId(1L).purchaseDate(LocalDateTime.now()).purchaseAmount(125.36).build());
+		orderRepository.save(Order.builder().customerId(1L).purchaseDate(LocalDateTime.of(2021, Month.AUGUST, 22, 12, 30)).purchaseAmount(125.36).build());
+		orderRepository.save(Order.builder().customerId(1L).purchaseDate(LocalDateTime.of(2022, Month.AUGUST, 22, 12, 30)).purchaseAmount(174.36).build());
 		orderRepository.save(Order.builder().customerId(2L).purchaseDate(LocalDateTime.now()).purchaseAmount(5.56).build());
 		orderRepository.save(Order.builder().customerId(2L).purchaseDate(LocalDateTime.now()).purchaseAmount(75.24).build());
 		orderRepository.save(Order.builder().customerId(2L).purchaseDate(LocalDateTime.now()).purchaseAmount(175.56).build());
 		orderRepository.save(Order.builder().customerId(3L).purchaseDate(LocalDateTime.now()).purchaseAmount(15.56).build());
-
 	}
 }

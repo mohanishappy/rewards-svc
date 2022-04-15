@@ -18,13 +18,14 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @GetMapping(path = "/all")
+    @GetMapping
     public List<Customer> getCustomers(){
-        return customerService.getCustomers();
+        return customerService.getAllCustomers();
     }
 
-    @GetMapping
-    public Customer getCustomer(@RequestParam Long customerId){
-        return customerService.getCustomer(customerId);
+    @GetMapping(path = "/search")
+    public List<Customer> searchCustomers(@RequestParam(required = false) Long customerId,
+                                @RequestParam(required = false) String customerName){
+        return customerService.searchCustomers(customerId, customerName);
     }
 }

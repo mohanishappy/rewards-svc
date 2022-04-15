@@ -25,12 +25,16 @@ public class OrderService {
     }
 
     public Order getOrder(Long orderId) {
-        return orderRepository.findById(orderId).orElseThrow() ;
+        return orderRepository.findById(orderId).orElseThrow();
     }
 
-    public List<Order> getOrdersByCustomerId(Long customerId) {
-        return StreamSupport
-                        .stream(orderRepository.findByCustomerId(customerId).spliterator(), false)
-                        .collect(Collectors.toList());
+    public List<Order> searchOrders(Long orderId, Long customerId) {
+        if (orderId != null) {
+            return orderRepository.findByOrderId(orderId);
+        } else if (customerId != null) {
+            return orderRepository.findByCustomerId(customerId);
+        } else {
+            return getOrders();
+        }
     }
 }
