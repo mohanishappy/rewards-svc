@@ -29,15 +29,19 @@ public class RewardsSvcApplication implements CommandLineRunner {
     }
 
 
+    /****************************************
+     **** load static data for testing ******
+     ***************************************/
+
     @Override
     public void run(String... args) {
 
-        log.info("load data to h2 started...");
+        log.info("load data to h2 - started");
 
         loadCustomerData();
         loadOrderData();
 
-        log.info("load data to h2 complete...");
+        log.info("load data to h2 - complete");
     }
 
     private void loadCustomerData() {
@@ -47,13 +51,13 @@ public class RewardsSvcApplication implements CommandLineRunner {
     }
 
     private void loadOrderData() {
-        orderRepository.save(Order.builder().customerId(1L).purchaseDate(LocalDateTime.now()).purchaseAmount(75.56).build());
-        orderRepository.save(Order.builder().customerId(1L).purchaseDate(LocalDateTime.now()).purchaseAmount(25.90).build());
+        orderRepository.save(Order.builder().customerId(1L).purchaseDate(LocalDateTime.of(2022, Month.APRIL, 22, 12, 30)).purchaseAmount(75.56).build());
+        orderRepository.save(Order.builder().customerId(1L).purchaseDate(LocalDateTime.of(2022, Month.APRIL, 22, 12, 30)).purchaseAmount(25.90).build());
         orderRepository.save(Order.builder().customerId(1L).purchaseDate(LocalDateTime.of(2021, Month.AUGUST, 22, 12, 30)).purchaseAmount(125.36).build());
         orderRepository.save(Order.builder().customerId(1L).purchaseDate(LocalDateTime.of(2022, Month.FEBRUARY, 22, 12, 30)).purchaseAmount(174.36).build());
-        orderRepository.save(Order.builder().customerId(2L).purchaseDate(LocalDateTime.of(2022, Month.FEBRUARY, 22, 12, 30)).purchaseAmount(68.98).build());
-        orderRepository.save(Order.builder().customerId(2L).purchaseDate(LocalDateTime.now()).purchaseAmount(75.24).build());
-        orderRepository.save(Order.builder().customerId(2L).purchaseDate(LocalDateTime.now()).purchaseAmount(175.56).build());
-        orderRepository.save(Order.builder().customerId(3L).purchaseDate(LocalDateTime.now()).purchaseAmount(15.56).build());
+        orderRepository.save(Order.builder().customerId(2L).purchaseDate(LocalDateTime.of(2022, Month.JANUARY, 22, 12, 30)).purchaseAmount(68.98).build());
+        orderRepository.save(Order.builder().customerId(2L).purchaseDate(LocalDateTime.of(2022, Month.MARCH, 22, 12, 30)).purchaseAmount(75.24).build());
+        orderRepository.save(Order.builder().customerId(2L).purchaseDate(LocalDateTime.of(2022, Month.FEBRUARY, 22, 12, 30)).purchaseAmount(175.56).build());
+        orderRepository.save(Order.builder().customerId(3L).purchaseDate(LocalDateTime.of(2022, Month.JANUARY, 22, 12, 30)).purchaseAmount(15.56).build());
     }
 }

@@ -7,7 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
+/**
+ * Customer service
+ * @author MKANAKAL
+ */
 @Service
 public class CustomerService {
 
@@ -22,14 +27,18 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    public List<Customer> searchCustomers(Long customerId, String customerName) {
-        if (customerId != null) {
-            return customerRepository.findByCustomerId(customerId);
-        } else if (StringUtils.isNotEmpty(customerName)) {
-            return customerRepository.findByName(customerName);
+    public Customer getCustomer(Long customerId) {
+        return customerRepository.findById(customerId).orElseThrow();
+    }
+    public List<Customer> searchCustomers(String customerName) {
+        if (StringUtils.isNotEmpty(customerName)) {
+            List<Customer> customers = customerRepository.findByName(customerName);
+            if (customers.isEmpty()){
+                throw new NoSuchElementException("No customers found");
+            }
+            return customers;
         } else {
             return getAllCustomers();
         }
-
     }
 }

@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * Customer Controller
+ * @author MKANAKAL
+ */
 @RestController
 @RequestMapping(path = "api/v1/customers")
 public class CustomerController {
@@ -22,13 +26,12 @@ public class CustomerController {
     }
 
     @GetMapping
-    public List<Customer> getCustomers() {
-        return customerService.getAllCustomers();
+    public Customer getCustomer(@RequestParam Long customerId) {
+        return customerService.getCustomer(customerId);
     }
 
     @GetMapping(path = "/search")
-    public List<Customer> searchCustomers(@RequestParam(required = false) Long customerId,
-                                          @RequestParam(required = false) String customerName) {
-        return customerService.searchCustomers(customerId, customerName);
+    public List<Customer> searchCustomers(@RequestParam(required = false) String customerName) {
+        return customerService.searchCustomers(customerName);
     }
 }

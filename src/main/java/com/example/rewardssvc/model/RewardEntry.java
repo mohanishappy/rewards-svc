@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class RewardsEntry {
+public class RewardEntry {
     private String month;
     private String year;
     private Double rewardPoints;

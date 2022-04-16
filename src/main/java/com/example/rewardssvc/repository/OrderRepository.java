@@ -6,10 +6,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Order Repository
+ * @author MKANAKAL
+ */
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
+
     List<Order> findByCustomerId(Long customerId);
-
-    List<Order> findByOrderId(Long orderId);
-
 }

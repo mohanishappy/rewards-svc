@@ -6,7 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
+/**
+ * Order service
+ * @author MKANAKAL
+ */
 @Service
 public class OrderService {
     private final OrderRepository orderRepository;
@@ -16,7 +21,7 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    public List<Order> getOrders() {
+    public List<Order> getAllOrders() {
         return orderRepository.findAll();
     }
 
@@ -24,13 +29,15 @@ public class OrderService {
         return orderRepository.findById(orderId).orElseThrow();
     }
 
-    public List<Order> searchOrders(Long orderId, Long customerId) {
-        if (orderId != null) {
-            return orderRepository.findByOrderId(orderId);
-        } else if (customerId != null) {
-            return orderRepository.findByCustomerId(customerId);
+    public List<Order> searchOrders(Long customerId) {
+        if (customerId != null) {
+            List<Order> orders = orderRepository.findByCustomerId(customerId);
+            if (orders.isEmpty()){
+                throw new NoSuchElementException("No orders found");
+            }
+            return orders;
         } else {
-            return getOrders();
+            return getAllOrders();
         }
     }
 }

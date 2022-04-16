@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Rewards Controller
+ * @author MKANAKAL
+ */
 @RestController
 @RequestMapping(path = "api/v1/rewards")
 public class RewardsController {

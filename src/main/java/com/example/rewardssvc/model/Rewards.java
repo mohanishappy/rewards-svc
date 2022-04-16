@@ -9,6 +9,7 @@ import java.util.List;
 @Builder
 public class Rewards {
 
-    private List<RewardsEntry> monthlyRewards;
+    private Customer customer;
+    private List<RewardEntry> monthlyRewards;
     private Double totalRewardPoints;
 }

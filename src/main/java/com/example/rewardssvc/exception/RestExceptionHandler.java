@@ -9,6 +9,10 @@ import java.util.NoSuchElementException;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
+/**
+ * Exception handler for handling application errors
+ * @author MKANAKAL
+ */
 @ControllerAdvice
 public class RestExceptionHandler {
 
@@ -19,7 +23,7 @@ public class RestExceptionHandler {
     @ExceptionHandler({NoSuchElementException.class})
     protected ResponseEntity<Object> handleNoSuchElementException(
             NoSuchElementException ex) {
-        ApiError apiError = new ApiError(NOT_FOUND, ex);
+        ApiError apiError = new ApiError(NOT_FOUND, "No data found",ex);
         return buildResponseEntity(apiError);
     }
 

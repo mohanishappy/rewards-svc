@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * Order Controller
+ * @author MKANAKAL
+ */
 @RestController
 @RequestMapping(path = "api/v1/orders")
 public class OrderController {
@@ -22,13 +26,12 @@ public class OrderController {
     }
 
     @GetMapping
-    public List<Order> getOrders() {
-        return orderService.getOrders();
+    public Order getOrder(@RequestParam Long orderId) {
+        return orderService.getOrder(orderId);
     }
 
     @GetMapping(path = "/search")
-    public List<Order> searchOrders(@RequestParam(required = false) Long orderId,
-                                    @RequestParam(required = false) Long customerId) {
-        return orderService.searchOrders(orderId, customerId);
+    public List<Order> searchOrders(@RequestParam(required = false) Long customerId) {
+        return orderService.searchOrders(customerId);
     }
 }
