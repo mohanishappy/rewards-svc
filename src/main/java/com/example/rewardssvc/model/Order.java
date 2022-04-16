@@ -1,17 +1,14 @@
 package com.example.rewardssvc.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,8 +17,11 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long orderId;
-    private Long customerId;
     private LocalDateTime purchaseDate;
     private Double purchaseAmount;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Customer customer;
 }

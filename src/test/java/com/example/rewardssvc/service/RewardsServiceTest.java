@@ -11,6 +11,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -23,6 +24,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
 @SpringBootTest
+@ActiveProfiles("test")
 public class RewardsServiceTest {
 
     @Autowired
@@ -36,40 +38,41 @@ public class RewardsServiceTest {
 
     @BeforeEach
     public void setUp() {
+        Customer customer = Customer.builder().customerId(11L).name("alex").build();
         Order order1 = Order.builder()
                 .orderId(1L)
-                .customerId(11L)
+                .customer(customer)
                 .purchaseAmount(75.25)
                 .purchaseDate(LocalDateTime.of(2022, Month.FEBRUARY, 1, 12, 30))
                 .build();
         Order order2 = Order.builder()
                 .orderId(2L)
-                .customerId(11L)
+                .customer(customer)
                 .purchaseAmount(125.45)
                 .purchaseDate(LocalDateTime.of(2022, Month.FEBRUARY, 1, 12, 30))
                 .build();
         Order order3 = Order.builder()
                 .orderId(3L)
-                .customerId(11L)
+                .customer(customer)
                 .purchaseAmount(25.25)
                 .purchaseDate(LocalDateTime.of(2022, Month.JANUARY, 1, 12, 30))
                 .build();
         Order order4 = Order.builder()
                 .orderId(4L)
-                .customerId(11L)
+                .customer(customer)
                 .purchaseAmount(165.38)
                 .purchaseDate(LocalDateTime.of(2022, Month.MARCH, 1, 12, 30))
                 .build();
 
-        Mockito.when(orderRepository.findByCustomerId(11L))
+        Mockito.when(orderRepository.findByCustomer(customer))
                 .thenReturn(List.of(order1, order2, order3, order4));
 
         Mockito.when(customerRepository.findById(11L))
-                .thenReturn(Optional.of(Customer.builder().customerId(11L).name("alex").build()));
+                .thenReturn(Optional.of(customer));
     }
 
     @Test
-    public void getRewardsByCustomer_test(){
+    public void getRewardsByCustomer_test() {
         Rewards rewardsByCustomer = rewardsService.getRewardsByCustomer(11L);
 
         assertNotNull(rewardsByCustomer);
@@ -77,11 +80,11 @@ public class RewardsServiceTest {
         assertEquals(3, rewardsByCustomer.getMonthlyRewards().size());
         assertEquals(306.90999999999997, rewardsByCustomer.getTotalRewardPoints());
 
-        verify(orderRepository).findByCustomerId(11L);
+        verify(orderRepository).findByCustomer(any());
     }
 
     @Test
-    public void searchOrdersForOrderIdNotExists_test(){
+    public void searchOrdersForOrderIdNotExists_test() {
         Exception exception = assertThrows(NoSuchElementException.class, () -> rewardsService.getRewardsByCustomer(12L));
 
         assertNotNull(exception);

@@ -2,8 +2,8 @@ package com.example.rewardssvc.service;
 
 import com.example.rewardssvc.model.Customer;
 import com.example.rewardssvc.model.Order;
-import com.example.rewardssvc.model.Rewards;
 import com.example.rewardssvc.model.RewardEntry;
+import com.example.rewardssvc.model.Rewards;
 import com.example.rewardssvc.repository.CustomerRepository;
 import com.example.rewardssvc.repository.OrderRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.*;
 
 /**
  * Order service
+ *
  * @author MKANAKAL
  */
 @Service
@@ -39,13 +40,13 @@ public class RewardsService {
 
         Optional<Customer> customer = customerRepository.findById(customerId);
 
-        if (customer.isEmpty()){
+        if (customer.isEmpty()) {
             throw new NoSuchElementException("No customer found for the customer ID provided");
         }
 
-        List<Order> ordersByCustomerId = orderRepository.findByCustomerId(customerId);
+        List<Order> ordersByCustomerId = orderRepository.findByCustomer(customer.get());
 
-        if (ordersByCustomerId.isEmpty()){
+        if (ordersByCustomerId.isEmpty()) {
             throw new NoSuchElementException("No orders found for the customer ID provided");
         }
 
@@ -67,6 +68,7 @@ public class RewardsService {
 
     /**
      * Prepare reward entry list
+     *
      * @param rewardsByYearMonth map of rewards grouped by month
      * @return list of reward entries
      */
@@ -83,6 +85,7 @@ public class RewardsService {
      * Calculate awards points from the purchase amount. Don't exclude cents/decimal part while calculating.
      * A customer receives 2 points for every dollar spent over $100 in each transaction, plus 1 point for every dollar spent over $50 in each transaction
      * (e.g. a $120 purchase = 2x$20 + 1x$50 = 90 points).
+     *
      * @param purchaseAmount actual order value
      * @return reward points
      */

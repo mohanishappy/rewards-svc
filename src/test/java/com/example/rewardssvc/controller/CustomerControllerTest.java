@@ -16,8 +16,10 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -32,7 +34,7 @@ public class CustomerControllerTest {
     private CustomerService customerService;
 
     @BeforeEach
-    public void setUp(){
+    public void setUp() {
         Long customer1Id = 121L;
         Long customer2Id = 122L;
         String customer1Name = "alex";
@@ -49,9 +51,12 @@ public class CustomerControllerTest {
                 .thenReturn(List.of(alex));
 
         Mockito.when(customerService.searchCustomers(null))
-                .thenReturn(List.of(alex,bob));
+                .thenReturn(List.of(alex, bob));
         Mockito.when(customerService.searchCustomers(""))
-                .thenReturn(List.of(alex,bob));
+                .thenReturn(List.of(alex, bob));
+
+        Mockito.when(customerService.save(any()))
+                .thenReturn(alex);
     }
 
     @Test
@@ -118,5 +123,22 @@ public class CustomerControllerTest {
                 .andExpect(jsonPath("$.length()", is(2)))
                 .andExpect(jsonPath("$[0].name", is("alex")))
                 .andExpect(jsonPath("$[1].name", is("bob")));
+    }
+
+    @Test
+    public void givenCustomer_whenSaveCustomer_thenStatusOk()
+            throws Exception {
+
+        mvc.perform(post("/api/v1/customers")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\n" +
+                                "  \"name\": \"fake_data\",\n" +
+                                "  \"email\": \"fake_data\"\n" +
+                                "}"))
+                .andExpect(status().isOk())
+                .andExpect(content()
+                        .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.length()", is(3)))
+                .andExpect(jsonPath("$.customerId", is(121)));
     }
 }

@@ -11,6 +11,7 @@ import java.util.NoSuchElementException;
 
 /**
  * Customer service
+ *
  * @author MKANAKAL
  */
 @Service
@@ -30,15 +31,20 @@ public class CustomerService {
     public Customer getCustomer(Long customerId) {
         return customerRepository.findById(customerId).orElseThrow();
     }
+
     public List<Customer> searchCustomers(String customerName) {
         if (StringUtils.isNotEmpty(customerName)) {
             List<Customer> customers = customerRepository.findByName(customerName);
-            if (customers.isEmpty()){
+            if (customers.isEmpty()) {
                 throw new NoSuchElementException("No customers found");
             }
             return customers;
         } else {
             return getAllCustomers();
         }
+    }
+
+    public Customer save(Customer customer) {
+        return customerRepository.saveAndFlush(customer);
     }
 }

@@ -37,7 +37,7 @@ public class CustomerRepositoryTest {
 
     @Test
     public void givenCustomerRepository_whenSaveAndRetrieveEntityWithName_thenOK() {
-        final String customerName = "John Doe" ;
+        final String customerName = "John Doe";
         customerRepository.save(Customer.builder().name(customerName).build());
         List<Customer> customers = customerRepository.findByName(customerName);
 
@@ -48,8 +48,8 @@ public class CustomerRepositoryTest {
 
     @Test
     public void givenCustomerRepository_whenSaveAndRetrieveEntityWithDifferentName_thenFail() {
-        final String customer1Name = "John Doe" ;
-        final String customer2Name = "Joe Drakes" ;
+        final String customer1Name = "John Doe";
+        final String customer2Name = "Joe Drakes";
         customerRepository.save(Customer.builder().name(customer1Name).build());
         List<Customer> customers = customerRepository.findByName(customer2Name);
 

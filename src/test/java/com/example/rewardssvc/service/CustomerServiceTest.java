@@ -1,6 +1,7 @@
 package com.example.rewardssvc.service;
 
 import com.example.rewardssvc.model.Customer;
+import com.example.rewardssvc.model.Order;
 import com.example.rewardssvc.repository.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,6 +9,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -20,6 +22,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 
 @SpringBootTest
+@ActiveProfiles("test")
 public class CustomerServiceTest {
 
     @Autowired
@@ -47,11 +50,11 @@ public class CustomerServiceTest {
                 .when(customerRepository).findById(71L);
 
         Mockito.when(customerRepository.findAll())
-                .thenReturn(List.of(alex,bob));
+                .thenReturn(List.of(alex, bob));
     }
 
     @Test
-    public void getAllCustomers_test(){
+    public void getAllCustomers_test() {
         List<Customer> allCustomers = customerService.getAllCustomers();
 
         assertNotNull(allCustomers);
@@ -62,7 +65,7 @@ public class CustomerServiceTest {
     }
 
     @Test
-    public void getCustomerForCustomerId_test(){
+    public void getCustomerForCustomerId_test() {
         Long customerId = 1L;
         Customer customer = customerService.getCustomer(customerId);
 
@@ -73,7 +76,7 @@ public class CustomerServiceTest {
     }
 
     @Test
-    public void getCustomersForCustomerIdAsNull_test(){
+    public void getCustomersForCustomerIdAsNull_test() {
         Exception exception = assertThrows(NoSuchElementException.class, () -> customerService.getCustomer(71L));
 
         assertNotNull(exception);
@@ -82,7 +85,7 @@ public class CustomerServiceTest {
     }
 
     @Test
-    public void searchCustomersForCustomerName_test(){
+    public void searchCustomersForCustomerName_test() {
         String customerName = "alex";
         List<Customer> allCustomers = customerService.searchCustomers(customerName);
 
@@ -94,7 +97,7 @@ public class CustomerServiceTest {
     }
 
     @Test
-    public void searchCustomersForCustomerNameNotExist_test(){
+    public void searchCustomersForCustomerNameNotExist_test() {
         Exception exception = assertThrows(NoSuchElementException.class, () -> customerService.searchCustomers("rambo"));
 
         assertNotNull(exception);
@@ -103,7 +106,7 @@ public class CustomerServiceTest {
     }
 
     @Test
-    public void searchCustomersForCustomerNameAsNull_test(){
+    public void searchCustomersForCustomerNameAsNull_test() {
         String customerName = "alex";
         List<Customer> allCustomers = customerService.searchCustomers(null);
 
@@ -112,5 +115,20 @@ public class CustomerServiceTest {
         assertEquals(2, allCustomers.size());
         assertEquals(customerName, allCustomers.get(0).getName());
         verify(customerRepository).findAll();
+    }
+
+    @Test
+    public void saveCustomer_test() {
+
+        Customer customer1 = Customer.builder().customerId(1L).build();
+        Order order1 = Order.builder().orderId(1L).customer(customer1).build();
+        Mockito.when(customerRepository.saveAndFlush(any())).thenReturn(customer1);
+
+        Customer savedCustomer = customerService.save(Customer.builder().build());
+
+        assertNotNull(savedCustomer);
+        assertNotNull(savedCustomer.getCustomerId());
+        assertEquals(1L, savedCustomer.getCustomerId());
+        verify(customerRepository).saveAndFlush(any());
     }
 }

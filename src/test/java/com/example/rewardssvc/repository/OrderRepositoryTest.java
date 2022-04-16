@@ -1,5 +1,6 @@
 package com.example.rewardssvc.repository;
 
+import com.example.rewardssvc.model.Customer;
 import com.example.rewardssvc.model.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,13 @@ public class OrderRepositoryTest {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private CustomerRepository customerRepository;
+
     @Test
     public void givenOrderRepository_whenSaveAndRetrieveEntity_thenOK() {
-        Order orderEntity = orderRepository.save(Order.builder().build());
+        Customer customer = customerRepository.save(Customer.builder().build());
+        Order orderEntity = orderRepository.save(Order.builder().customer(customer).build());
         Optional<Order> foundEntity = orderRepository.findById(orderEntity.getOrderId());
 
         assertTrue(foundEntity.isPresent());
@@ -37,21 +42,23 @@ public class OrderRepositoryTest {
 
     @Test
     public void givenOrderRepository_whenSaveAndRetrieveEntityWithCustomerId_thenOK() {
-        final Long customerId = 125L;
-        orderRepository.save(Order.builder().customerId(customerId).build());
-        List<Order> foundEntity = orderRepository.findByCustomerId(customerId);
+        Customer customer = customerRepository.save(Customer.builder().build());
+        orderRepository.save(Order.builder().customer(customer).build());
+        List<Order> foundEntity = orderRepository.findByCustomer(customer);
 
         assertFalse(foundEntity.isEmpty());
         assertNotNull(foundEntity.get(0));
-        assertEquals(customerId, foundEntity.get(0).getCustomerId());
+        assertNotNull(foundEntity.get(0).getCustomer());
+        assertEquals(customer.getCustomerId(), foundEntity.get(0).getCustomer().getCustomerId());
     }
 
     @Test
     public void givenOrderRepository_whenSaveAndRetrieveEntityWithDifferentCustomerId_thenFail() {
-        final Long customer1Id = 125L;
-        final Long customer2Id = 126L;
-        orderRepository.save(Order.builder().customerId(customer1Id).build());
-        List<Order> foundEntity = orderRepository.findByCustomerId(customer2Id);
+        Customer customer1 = customerRepository.save(Customer.builder().build());
+        Customer customer2 = customerRepository.save(Customer.builder().build());
+
+        orderRepository.save(Order.builder().customer(customer1).build());
+        List<Order> foundEntity = orderRepository.findByCustomer(customer2);
 
         assertNotNull(foundEntity);
         assertTrue(foundEntity.isEmpty());

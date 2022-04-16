@@ -3,15 +3,13 @@ package com.example.rewardssvc.controller;
 import com.example.rewardssvc.model.Customer;
 import com.example.rewardssvc.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 /**
  * Customer Controller
+ *
  * @author MKANAKAL
  */
 @RestController
@@ -33,5 +31,10 @@ public class CustomerController {
     @GetMapping(path = "/search")
     public List<Customer> searchCustomers(@RequestParam(required = false) String customerName) {
         return customerService.searchCustomers(customerName);
+    }
+
+    @PostMapping
+    public Customer save(@RequestBody Customer customer) {
+        return customerService.save(customer);
     }
 }

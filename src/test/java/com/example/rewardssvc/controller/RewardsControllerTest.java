@@ -1,7 +1,7 @@
 package com.example.rewardssvc.controller;
 
-import com.example.rewardssvc.model.Rewards;
 import com.example.rewardssvc.model.RewardEntry;
+import com.example.rewardssvc.model.Rewards;
 import com.example.rewardssvc.service.RewardsService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
