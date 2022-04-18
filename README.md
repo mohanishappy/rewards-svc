@@ -1,10 +1,10 @@
 # Reward Services
+REST Microservices for rewards program using Spring Boot. this is a maven project.
 
 ## Required Tools
 
 * Docker
-* Docker-Compose
-* JDK 11
+* Git
 
 ## Steps to run
 
