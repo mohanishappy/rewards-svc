@@ -1,6 +1,16 @@
 # Reward Services
 REST Microservices for rewards program using Spring Boot. this is a maven project.
 
+## Tech used
+
+* Spring Boot
+* REST microservices
+* Spring JPA
+* Spring-HATEOAS
+* Spring-Actuator
+* Docker
+* Swagger/API Docs
+
 ## Required Tools
 
 * Docker
@@ -18,7 +28,9 @@ REST Microservices for rewards program using Spring Boot. this is a maven projec
 
 ## Application links
 
-| Item       | URL |
-|------------|-----|
+| Item       | URL                                         |
+|------------|---------------------------------------------|
 | Swagger UI | http://localhost:8080/swagger-ui/index.html |
-| API Docs   | http://localhost:8080/api-docs   |
+| API Docs   | http://localhost:8080/api-docs              | 
+| Health     | http://localhost:8080/actuator/health       | 
+| metrics    | http://localhost:8080/actuator/metrics      | 
